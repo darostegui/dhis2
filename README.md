@@ -15,7 +15,7 @@ You can customize versions and datasource changing the parameters above
 
 Added nginx as [override](https://github.com/darostegui/dhis2/blob/main/docker-compose.override.yml) on the docker composer:
 
-<img width="354" alt="image" src="https://github.com/darostegui/dhis2/assets/61184284/2ace6bab-790d-4c59-9711-0f35952f86ed">
+<img width="200" alt="image" src="https://github.com/darostegui/dhis2/assets/61184284/2ace6bab-790d-4c59-9711-0f35952f86ed">
 
 
 I closed port 8080-8081 and 9010 as they were used for debug and direct access to dhis (instead of using nginx).
@@ -76,4 +76,19 @@ result = json.loads(res.content)
 print(result['version'])
 syslog.syslog('DHIS API '+result['version'])
 ```
+
+
+#### SQL Query 
+
+```
+SELECT d.created, d.periodid, d.sourceid, d.value, d.storedby, d.dataelementid, d.value, o.name, e.name
+FROM (public.datavalue d JOIN  public.dataelement e ON d.dataelementid = e.dataelementid)
+  JOIN public.organisationunit o ON d.sourceid = o.organisationunitid 
+  where o.name = 'Bengani MCHP' and e.name = 'ER Visits in schools'
+  order by d.created
+  Limit 5;
+```
+
+<img width="1000" alt="image" src="https://github.com/darostegui/dhis2/assets/61184284/499b1c9e-c470-47e9-b48e-feace502d1ab">
+
 
