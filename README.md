@@ -36,3 +36,44 @@ I closed port 8080-8081 and 9010 as they were used for debug and direct access t
 Result of testing both scripts: 
 
 <img width="463" alt="image" src="https://github.com/darostegui/dhis2/assets/61184284/c5a1904f-cce2-4a61-a8ff-f47049233a31">
+
+#### Bash
+
+```
+#!/bin/bash
+if [[ -z $1 && -z $2 ]]; then
+ echo "USAGE bash get-dhis2-version.sh http://localhost admin:district"
+else
+ API_VERSION=`curl -s $1/api/33/system/info -u "$2" | jq -r .version` ## Get it
+ echo $API_VERSION ## Print it
+ logger -p local0.notice -t ${0##*/}[$$] DHIS VERSION at `date +"%D %T"` :  $API_VERSION ## log it
+fi
+
+
+### Should return and log:
+### ./get-dhis2-version.sh http://localhost admin:district
+### 2.40.2
+### tail -n 1 /var/log/syslog
+### Dec 16 08:58:56 darostegui-backup -bash[1026859]: DHIS VERSION at 12/16/23 08:58:56 : 2.40.2
+### syslog get logrotated on most systems
+```
+
+#### Python
+
+```
+import requests
+import json
+import sys, getopt
+import syslog
+
+hostname = sys.argv[1]
+arg2 = sys.argv[2]
+userpassword = arg2.split(":", 1)
+
+from requests.auth import HTTPBasicAuth
+res = requests.get(hostname +'/api/33/system/info', auth=HTTPBasicAuth(userpassword[0], userpassword[1]))
+result = json.loads(res.content)
+print(result['version'])
+syslog.syslog('DHIS API '+result['version'])
+```
+
