@@ -31,3 +31,8 @@ I closed port 8080-8081 and 9010 as they were used for debug and direct access t
 | <img width="500" alt="image" src="https://github.com/darostegui/dhis2/assets/61184284/e35f2b37-b014-4faf-8bbe-26000e43d437"> | <img width="500" alt="image" src="https://github.com/darostegui/dhis2/assets/61184284/d96e40f5-af71-40fe-854e-48ecebbce78a">|
 
 
+### Dhis Version script
+
+Result of testing both scripts: 
+
+<img width="463" alt="image" src="https://github.com/darostegui/dhis2/assets/61184284/c5a1904f-cce2-4a61-a8ff-f47049233a31">
